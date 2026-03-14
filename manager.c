@@ -46,10 +46,27 @@ void saveAllClasses(struct st_class* c[], int csize){
 }
 
 int addNewClass(struct st_class* c[], int csize){
+    int code;
+    int is_duplicate;
+
+    while(1) {
+        is_duplicate = 0;
+        printf(">> code number > ");
+        scanf("%d", &code);
+
+        for(int i = 0; i < csize; i++) {
+            if(c[i]->code == code) {
+                printf(">> Code duplicated! Retry.\n");
+                is_duplicate = 1;
+                break;
+            }
+        }
+
+        if(is_duplicate == 0) break;
+    }
+
     struct st_class* p = (struct st_class*)malloc(sizeof(struct st_class));
-    
-    printf(">> code number > ");
-    scanf("%d", &(p->code));
+    p->code = code;
     
     printf(">> class name > ");
     scanf("%s", p->name);
