@@ -108,11 +108,54 @@ void editClass(struct st_class* c[], int csize){
     printf("> Modified.\n");
 }
 
-int applyMyClasses(int my[], int msize, struct st_class* c[], int csize){
+int applyMyClasses(int my[], int msize, struct st_class* c[], int csize) {
+    int code, choice;
+    while (1) {
+        if (msize >= 10) {
+            printf(">> You cannot apply more than 10 classes.\n");
+            break;
+        }
+        printf(">> Enter a class code > ");
+        scanf("%d", &code);
+
+        int found = -1;
+        for (int i = 0; i < csize; i++) {
+            if (c[i]->code == code) { found = i; break; }
+        }
+
+        if (found == -1) {
+            printf(">> No such code of class.\n");
+        } else {
+            int dup = 0;
+            for (int j = 0; j < msize; j++) {
+                if (my[j] == code) { dup = 1; break; }
+            }
+            if (dup) {
+                printf(">> Already applied!\n");
+            } else {
+                my[msize++] = code;
+                printf(">> [%d] %s [credit %d - %s]\n", c[found]->code, c[found]->name, c[found]->unit, kname[c[found]->grading-1]);
+            }
+        }
+        printf(">> Add more? (1:Yes 2: No) > ");
+        scanf("%d", &choice);
+        if (choice == 2) break;
+    }
     return msize;
 }
 
-void printMyClasses(int my[], int msize, struct st_class* c[], int csize){
+void printMyClasses(int my[], int msize, struct st_class* c[], int csize) {
+    int total = 0;
+    for (int i = 0; i < msize; i++) {
+        for (int j = 0; j < csize; j++) {
+            if (my[i] == c[j]->code) {
+                printf("%d. [%d] %s [credit %d - %s]\n", i + 1, c[j]->code, c[j]->name, c[j]->unit, kname[c[j]->grading-1]);
+                total += c[j]->unit;
+                break;
+            }
+        }
+    }
+    printf("All %d credits\n", total);
 }
 
 void saveMyClass(int my[], int msize, struct st_class* c[], int csize){
