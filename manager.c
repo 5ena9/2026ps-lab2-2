@@ -178,9 +178,9 @@ void saveMyClass(int my[], int msize, struct st_class* c[], int csize) {
             }
         }
     }
-
+    
     fprintf(file, "All: %d classes, %d credits (A+~F %d credits, P/F %d credits)\n", 
             msize, total_credits, grade_credits, pf_credits);
-    
+
     fclose(file);
 }
